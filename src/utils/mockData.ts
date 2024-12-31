@@ -1,20 +1,22 @@
-export const mockStations = [
+import { Station } from "~/common/types/restaurant";
+
+export const mockStations: Station[] = [
   {
-    id: "1",
+    place_id: "1",
     name: "Tokyo Station",
     geometry: {
       location: { lat: 35.6812, lng: 139.7671 },
     },
   },
   {
-    id: "2",
+    place_id: "2",
     name: "Shinjuku Station",
     geometry: {
       location: { lat: 35.6896, lng: 139.7006 },
     },
   },
   {
-    id: "3",
+    place_id: "3",
     name: "Shibuya Station",
     geometry: {
       location: { lat: 35.658, lng: 139.7016 },
@@ -24,7 +26,7 @@ export const mockStations = [
 
 export const mockRestaurants = [
   {
-    id: "1",
+    place_id: "1",
     name: "Sushi Paradise",
     vicinity: "123 Tokyo St, Chiyoda",
     rating: 4.5,
@@ -36,7 +38,7 @@ export const mockRestaurants = [
     categories: ["sushi", "japanese"],
   },
   {
-    id: "2",
+    place_id: "2",
     name: "Ramen House",
     vicinity: "456 Shinjuku Ave, Shinjuku",
     rating: 4.2,
@@ -48,7 +50,7 @@ export const mockRestaurants = [
     categories: ["ramen", "japanese"],
   },
   {
-    id: "3",
+    place_id: "3",
     name: "Tempura Delight",
     vicinity: "789 Shibuya Rd, Shibuya",
     rating: 4.7,
@@ -60,7 +62,7 @@ export const mockRestaurants = [
     categories: ["tempura", "japanese"],
   },
   {
-    id: "4",
+    place_id: "4",
     name: "Yakitori Grill",
     vicinity: "101 Tokyo Central, Chiyoda",
     rating: 4.0,
@@ -72,7 +74,7 @@ export const mockRestaurants = [
     categories: ["yakitori", "japanese"],
   },
   {
-    id: "5",
+    place_id: "5",
     name: "Matcha Cafe",
     vicinity: "202 Shinjuku Green, Shinjuku",
     rating: 4.8,
@@ -84,7 +86,7 @@ export const mockRestaurants = [
     categories: ["cafe", "japanese"],
   },
   {
-    id: "6",
+    place_id: "6",
     name: "Udon Noodle Shop",
     vicinity: "303 Shibuya Center, Shibuya",
     rating: 4.3,

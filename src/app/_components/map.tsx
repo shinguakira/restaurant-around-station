@@ -1,31 +1,5 @@
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
-
-interface Restaurant {
-  id: string;
-  name: string;
-  vicinity: string;
-  rating?: number;
-  user_ratings_total?: number;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  stationId: string;
-  categories: string[];
-}
-
-interface Station {
-  id: string;
-  name: string;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
+import type { Station, Restaurant } from "~/common/types/restaurant";
 
 interface MapProps {
   center: google.maps.LatLngLiteral;
@@ -56,7 +30,7 @@ export function Map({
     >
       {stations.map((station) => (
         <Marker
-          key={station.id}
+          key={station.place_id}
           position={station.geometry.location}
           icon={{
             url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
@@ -65,7 +39,7 @@ export function Map({
       ))}
       {filteredRestaurants.map((restaurant) => (
         <Marker
-          key={restaurant.id}
+          key={restaurant.place_id}
           position={restaurant.geometry.location}
           onClick={() => setSelectedRestaurant(restaurant)}
         />

@@ -20,34 +20,7 @@ import {
   SelectValue,
 } from "@components/shadcn/select";
 
-interface Restaurant {
-  place_id: string;
-  name: string;
-  vicinity: string;
-  rating?: number;
-  user_ratings_total?: number;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  stationId: string;
-  categories: string[];
-}
-
-interface Station {
-  place_id: string;
-  place_code: string;
-
-  name: string;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
+import type { Restaurant, Station } from "~/common/types/restaurant";
 
 interface RestaurantListProps {
   stations: Station[];

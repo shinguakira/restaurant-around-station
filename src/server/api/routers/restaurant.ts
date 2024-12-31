@@ -1,22 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import axios from "axios";
+import type { GoogleMapsPlace } from "@/common/types/restaurant";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-interface GoogleMapsPlace {
-  place_id: string;
-  name: string;
-  vicinity: string;
-  rating?: number;
-  user_ratings_total?: number;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
 
 export const restaurantRouter = createTRPCRouter({
   getNearbyRestaurants: publicProcedure

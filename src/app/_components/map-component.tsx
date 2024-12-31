@@ -6,35 +6,9 @@ import { SearchBar } from "@components/search-bar";
 import { RestaurantList } from "@components/restaurant-list";
 import { Map } from "@components/map";
 import { mockRestaurants, mockStations } from "@/utils/mockData";
+import type { Station, Restaurant } from "~/common/types/restaurant";
 
 const libraries = ["places"];
-
-interface Restaurant {
-  id: string;
-  name: string;
-  vicinity: string;
-  rating?: number;
-  user_ratings_total?: number;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  stationId: string;
-  categories: string[];
-}
-
-interface Station {
-  id: string;
-  name: string;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
 
 const MapComponent = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
