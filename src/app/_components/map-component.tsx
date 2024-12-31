@@ -5,8 +5,13 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import { SearchBar } from "@components/search-bar";
 import { RestaurantList } from "@components/restaurant-list";
 import { Map } from "@components/map";
-import { mockRestaurants, mockStations } from "@/utils/mockData";
+import {
+  mockRestaurants,
+  mockStations,
+  mockStationsJa,
+} from "@/utils/mockData";
 import type { Station, Restaurant } from "~/common/types/restaurant";
+import { mockRestaurantsJa } from "../../utils/mockData";
 
 const libraries = ["places"];
 
@@ -38,8 +43,8 @@ const MapComponent = () => {
   useEffect(() => {
     if (isLoaded) {
       if (useMockData) {
-        setRestaurants(mockRestaurants);
-        setStations(mockStations);
+        setRestaurants(mockRestaurantsJa);
+        setStations(mockStationsJa);
         setCenter(mockStations[0].geometry.location);
       } else {
         getCurrentLocation();
