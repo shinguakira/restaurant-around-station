@@ -1,19 +1,15 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { useJsApiLoader } from "@react-google-maps/api";
+import { useJsApiLoader, type Libraries } from "@react-google-maps/api";
 import { SearchBar } from "@components/search-bar";
 import { RestaurantList } from "@components/restaurant-list";
 import { Map } from "@components/map";
-import {
-  mockRestaurants,
-  mockStations,
-  mockStationsJa,
-} from "@/utils/mockData";
+import { mockStations, mockStationsJa } from "@/utils/mockData";
 import type { Station, Restaurant } from "~/common/types/restaurant";
 import { mockRestaurantsJa } from "../../utils/mockData";
 
-const libraries = ["places"];
+const libraries: Libraries = ["places"];
 
 const MapComponent = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -29,28 +25,8 @@ const MapComponent = () => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: libraries as any,
+    libraries: libraries,
   });
-
-  const onLoad = useCallback((map: google.maps.Map) => {
-    setMap(map);
-  }, []);
-
-  const onUnmount = useCallback(() => {
-    setMap(null);
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded) {
-      if (useMockData) {
-        setRestaurants(mockRestaurantsJa);
-        setStations(mockStationsJa);
-        setCenter(mockStations[0].geometry.location);
-      } else {
-        getCurrentLocation();
-      }
-    }
-  }, [isLoaded, useMockData]);
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -71,6 +47,29 @@ const MapComponent = () => {
     }
   };
 
+  const onLoad = useCallback((map: google.maps.Map) => {
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback(() => {
+    setMap(null);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      if (useMockData) {
+        setRestaurants(mockRestaurantsJa);
+        setStations(mockStationsJa);
+        if (mockStations[0]?.geometry?.location) {
+          setCenter(mockStations[0].geometry.location);
+        }
+      } else {
+        getCurrentLocation();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, useMockData]);
+
   const findNearbyStations = (location: google.maps.LatLngLiteral) => {
     if (map) {
       const service = new google.maps.places.PlacesService(map);
@@ -82,9 +81,11 @@ const MapComponent = () => {
         },
         (results, status) => {
           if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            setStations(results.slice(0, 3) as Station[]);
-            setCenter(results[0].geometry!.location.toJSON());
-            map.panTo(results[0].geometry!.location);
+            setStations(results.slice(0, 3) as unknown as Station[]);
+            if (results[0]?.geometry?.location) {
+              setCenter(results[0].geometry.location.toJSON());
+              map.panTo(results[0].geometry.location);
+            }
             results
               .slice(0, 3)
               .forEach((station) => searchRestaurants(station));
@@ -155,8 +156,12 @@ const MapComponent = () => {
           fields: ["name", "geometry"],
         },
         (results, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            const location = results[0].geometry?.location;
+          if (
+            status === google.maps.places.PlacesServiceStatus.OK &&
+            results &&
+            results.length > 0
+          ) {
+            const location = results[0]?.geometry?.location;
             if (location) {
               findNearbyStations({ lat: location.lat(), lng: location.lng() });
             }
